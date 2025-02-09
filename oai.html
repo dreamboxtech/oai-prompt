@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>OpenAI-User Prompt Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* RESET & GLOBAL STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+      background-color: #ffffff; /* White background, OpenAI-like minimalism */
+      color: #333333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* HEADER - Top Nav (OpenAI-like) */
+    header {
+      background-color: #ffffff;
+      border-bottom: 1px solid #eaeaea;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #2c2c2c;
+    }
+    .logo span {
+      margin-left: 0.5rem;
+    }
+    .logo img {
+      width: 24px;
+      height: 24px;
+    }
+    .nav-links a {
+      margin-left: 1.5rem;
+      color: #2c2c2c;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover {
+      color: #007d9c; /* A subtle teal hover effect */
+    }
+
+    /* MAIN CONTENT */
+    main {
+      flex: 1;
+      padding: 3rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #202123; /* Dark text */
+    }
+    .hero-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #535353;
+      margin-bottom: 2rem;
+    }
+
+    .form-container {
+      border: 1px solid #d4d4d4;
+      border-radius: 8px;
+      padding: 2rem;
+      background-color: #fafafa;
+    }
+    .form-title {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      color: #202123;
+    }
+    .form-field {
+      margin-bottom: 1.5rem;
+    }
+    .form-field label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #202123;
+    }
+    .form-field textarea {
+      width: 100%;
+      height: 200px; /* Larger multiline area */
+      padding: 0.75rem;
+      resize: vertical;
+      border: 1px solid #cfcfcf;
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: #333;
+    }
+    .submit-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #10a37f; /* OpenAI’s green/teal accent */
+      color: #ffffff;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .submit-btn:hover {
+      background-color: #0d8a6b;
+    }
+
+    .error-message {
+      margin-top: 1rem;
+      color: #d9534f;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid #eaeaea;
+      background-color: #ffffff;
+      text-align: center;
+      padding: 1rem 2rem;
+      color: #888;
+      flex-shrink: 0;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links a {
+        margin-left: 0.75rem;
+      }
+      .hero-title {
+        font-size: 1.6rem;
+      }
+      .form-field textarea {
+        height: 150px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- An optional placeholder for an OpenAI-like logo (simple swirl icon). -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/OpenAI_Logo.svg/512px-OpenAI_Logo.svg.png" alt="OpenAI" />
+      <!-- <span>OpenAI</span> -->
+    </div>
+    <div class="nav-links">
+      <a href="#">Overview</a>
+      <a href="#">Docs</a>
+      <a href="#">API</a>
+      <a href="#">Pricing</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <section class="hero">
+      <h1 class="hero-title">OpenAI User Prompt Processor</h1>
+      <p class="hero-description">
+      </p>
+    </section>
+
+    <div class="form-container">
+      <form id="feedbackForm" action="#" method="POST">
+        <div class="form-field">
+          <label for="userFeedback">Enter the complete user's request as provided in the chat:</label>
+          <textarea id="userFeedback" name="userFeedback" placeholder="OAI: Enter request as in the chat and continue"></textarea>
+        </div>
+        <button class="submit-btn" type="submit">Continue</button>
+      </form>
+      <div id="errorMessage" class="error-message">
+        Please provide the complete information.
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 OpenAI.
+  </footer>
+
+  <!-- SIMPLE JAVASCRIPT VALIDATION -->
+  <script>
+    const form = document.getElementById('feedbackForm');
+    const errorMessageDiv = document.getElementById('errorMessage');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent actual form submission
+
+      // Always show an error message prompting for more info
+      errorMessageDiv.style.display = 'block';
+      errorMessageDiv.textContent = 'Please provide the complete information.';
+    });
+  </script>
+</body>
+</html>
